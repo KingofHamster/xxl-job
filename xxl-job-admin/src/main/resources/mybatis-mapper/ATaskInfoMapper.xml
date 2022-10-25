@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.job.admin.dao.ATaskInfoDao">
+
+    <resultMap id="ATaskInfo" type="com.xxl.job.admin.core.model.ATaskInfo" >
+        <result column="taskId" property="taskId" />
+        <result column="serverId" property="serverId"/>
+        <result column="taskSource" property="taskSource"/>
+        <result column="taskSourceId" property="taskSourceId"/>
+        <result column="taskType" property="taskType"/>
+        <result column="taskStatus" property="taskStatus"/>
+        <result column="busType" property="busType"/>
+        <result column="busInitKey" property="busInitKey"/>
+        <result column="busKey" property="busKey"/>
+        <result column="busCtrlParam" property="busCtrlParam"/>
+        <result column="busRunParam" property="busRunParam"/>
+        <result column="busTimeout" property="busTimeout"/>
+        <result column="busFailHanding" property="busFailHanding"/>
+        <result column="lastRunDate" property="lastRunDate"/>
+        <result column="lastRunTime" property="lastRunTime"/>
+        <result column="taskValid" property="taskValid"/>
+        <result column="taskVerNo" property="taskVerNo"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        t.taskId,
+		t.serverId,
+		t.taskSource,
+		t.taskSourceId,
+		t.taskType,
+		t.taskStatus,
+        t.busType,
+        t.busInitKey,
+        t.busKey,
+        t.busCtrlParam,
+        t.busRunParam,
+        t.busTimeout,
+        t.busFailHanding,
+        t.lastRunDate,
+        t.lastRunTime,
+        t.taskValid,
+        t.taskVerNo,
+        t.remark
+    </sql>
+
+    <select id="findAll" parameterType="java.util.HashMap" resultMap="ATaskInfo">
+        SELECT <include refid="Base_Column_List" />
+        FROM A_TASKINFO t
+    </select>
+
+    <select id="findAllByTaskId" resultMap="ATaskInfo">
+        SELECT <include refid="Base_Column_List" />
+        FROM A_TASKINFO t
+        WHERE taskid = #{taskId}
+    </select>
+
+</mapper>

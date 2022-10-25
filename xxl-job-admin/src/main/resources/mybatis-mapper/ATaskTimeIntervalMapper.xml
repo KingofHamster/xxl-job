@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.job.admin.dao.ATaskTimeIntervalDao">
+
+    <resultMap id="ATaskTimeInterval" type="com.xxl.job.admin.core.model.ATaskTimeInterval" >
+        <result column="timeintervalid" property="timeintervalid" />
+
+        <result column="taskid" property="taskid" />
+        <result column="begindate" property="begindate" />
+
+        <result column="begintime" property="begintime" />
+        <result column="enddate" property="enddate" />
+
+        <result column="endtime" property="endtime" />
+        <result column="actiontype" property="actiontype" />
+
+        <result column="actiondays" property="actiondays" />
+        <result column="runmode" property="runmode" />
+        <result column="interval" property="interval" />
+
+        <result column="timeflags" property="timeflags" />
+        <result column="timetype" property="timetype" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        t.timeintervalid,
+		t.taskid,
+        t.begindate,
+        t.begintime,
+        t.enddate,
+        t.endtime,
+        t.actiontype,
+        t.actiondays,
+        t.runmode,
+        t.interval,
+        t.timeflags,
+        t.timetype
+    </sql>
+
+    <select id="findAll" resultMap="ATaskTimeInterval">
+        SELECT <include refid="Base_Column_List" />
+        FROM A_TASKTIMEINTERVAL t
+    </select>
+
+    <select id="findAllByTaskId" resultMap="ATaskTimeInterval">
+        SELECT <include refid="Base_Column_List" />
+        FROM A_TASKTIMEINTERVAL t
+        WHERE taskId = #{taskId}
+    </select>
+
+</mapper>
