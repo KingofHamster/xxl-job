@@ -11,6 +11,7 @@
     </appender>
     <!--TODO oracle支持调整 放开日志便于调整sql错误-->
 <!--    <logger name="com.xxl.job.admin.dao.XxlJobLogDao" level="DEBUG" />-->
+<!--    <logger name="com.xxl.job.admin.dao.XxlJobInfoDao" level="DEBUG" />-->
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

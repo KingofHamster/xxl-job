@@ -1,9 +1,8 @@
 package com.xxl.job.fixrate;
 
 import com.xxl.job.admin.core.fixrate.dayhelper.DayHelper;
-import com.xxl.job.admin.core.util.TimeConstants;
 
-import static com.xxl.job.admin.dbmigration.TaskMigration.parseATaskInfoTime;
+import static com.xxl.job.dbmigration.TaskMigration.parseATaskInfoTime;
 
 public class Formatter {
     public static void main(String[] args) {

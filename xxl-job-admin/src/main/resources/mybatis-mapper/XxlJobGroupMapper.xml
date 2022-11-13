@@ -63,7 +63,7 @@
 	<select id="pageList" parameterType="java.util.HashMap" resultMap="XxlJobGroup">
 		select *
 		from (select *
-		from (select A.*, rownum rn
+		from (select A.*, rownum - 1 rn
 		from (
 		SELECT <include refid="Base_Column_List" />
 		FROM xxl_job_group t
@@ -76,7 +76,7 @@
 			</if>
 		</trim>
 		ORDER BY t.app_name, t.title, t.id ASC) A)
-		where rn > #{offset}) B
+		where rn >= #{offset}) B
 		<![CDATA[	where rn < #{offset}+ #{pagesize} ]]>
 	</select>
 

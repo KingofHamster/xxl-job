@@ -1,6 +1,7 @@
 package com.xxl.job.admin.service.impl;
 
 import com.xxl.job.admin.core.cron.CronExpression;
+import com.xxl.job.admin.core.fixrate.MultiFixRateConf;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobLogReport;
@@ -85,13 +86,14 @@ public class XxlJobServiceImpl implements XxlJobService {
 			if (jobInfo.getScheduleConf() == null) {
 				return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")) );
 			}
+			// TODO add another format checker
 			try {
-				int fixSecond = Integer.valueOf(jobInfo.getScheduleConf());
-				if (fixSecond < 1) {
-					return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")+I18nUtil.getString("system_unvalid")) );
+				ReturnT<String> returnT = MultiFixRateConf.checkFormat(jobInfo.getScheduleConf());
+				if (returnT.getCode() == ReturnT.FAIL_CODE) {
+					return returnT;
 				}
 			} catch (Exception e) {
-				return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")+I18nUtil.getString("system_unvalid")) );
+				return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")) );
 			}
 		}
 
@@ -190,14 +192,14 @@ public class XxlJobServiceImpl implements XxlJobService {
 				return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")+I18nUtil.getString("system_unvalid")) );
 			}
 			// Todo: Add a new format validator for the upgraded FIX_RATE CONF.
-//			try {
-//				int fixSecond = Integer.valueOf(jobInfo.getScheduleConf());
-//				if (fixSecond < 1) {
-//					return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")+I18nUtil.getString("system_unvalid")) );
-//				}
-//			} catch (Exception e) {
-//				return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")+I18nUtil.getString("system_unvalid")) );
-//			}
+			try {
+				ReturnT<String> returnT = MultiFixRateConf.checkFormat(jobInfo.getScheduleConf());
+				if (returnT.getCode() == ReturnT.FAIL_CODE) {
+					return returnT;
+				}
+			} catch (Exception e) {
+				return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("schedule_type")) );
+			}
 		}
 
 		// valid advanced

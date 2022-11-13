@@ -366,7 +366,6 @@ public class JobScheduleHelper {
         } else if (ScheduleTypeEnum.FIX_RATE == scheduleTypeEnum /*|| ScheduleTypeEnum.FIX_DELAY == scheduleTypeEnum*/) {
             //TODO: Upgrade FixRateTask nextTriggerTime Calculation
             return new MultiFixRateConf(jobInfo.getScheduleConf(), "\\|").getEarliestNextValidTimeAfter(fromTime);
-//            return new FixRateConf(jobInfo.getScheduleConf()).getNextValidTimeAfterFromEveryDay(fromTime);
 //            return new Date(fromTime.getTime() + Integer.valueOf(jobInfo.getScheduleConf())*1000 );
         }
         return null;

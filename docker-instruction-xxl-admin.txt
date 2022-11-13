@@ -1,0 +1,3 @@
+执行以下命令部署xxl-admin:
+1. docker pull hamsterking/xxl-job-admin
+2. docker run -d -p 8080:8080 --name xxl-job-admin hamsterking/xxl-job-admin

@@ -3,12 +3,31 @@ package com.xxl.job.admin.core.fixrate;
 
 import com.xxl.job.admin.core.fixrate.dayhelper.DayHelper;
 import com.xxl.job.admin.core.fixrate.dayhelper.DayHelperTradingDay;
+import com.xxl.job.admin.core.util.TimeConstants;
 import com.xxl.job.admin.core.util.TradingDayUtils;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class FixRateConf {
+    
+
+    /**
+     * A static method for parsing a 'hh:mm:dd' format string to seconds as int;
+     * @param confStr
+     * @return
+     */
+    public static FixRateConf parseConfString(String confStr) {
+        String[] segs = confStr.split(" ");
+        FixRateConf fixRateConf = new FixRateConf();
+        fixRateConf.beginTimeOffset = TimeConstants.hhmmssToSeconds(segs[0]);
+        fixRateConf.endTimeOffset = TimeConstants.hhmmssToSeconds(segs[1]);
+        fixRateConf.interval = Integer.parseInt(segs[2]);
+        fixRateConf.actionType = Integer.parseInt(segs[3]); // determine using which DayHelper
+        String actionDays = segs.length >= 5 ? segs[4] : "";
+        fixRateConf.dayHelper = DayHelper.getInstanceByCode(fixRateConf.actionType, actionDays);
+        return fixRateConf;
+    }
 
     /**
      * ActivationType for triggering;
@@ -58,6 +77,10 @@ public class FixRateConf {
         this.actionType = actionType;
         this.dayHelper = DayHelper.getInstanceByCode(actionType, actionDays);
     }
+    
+    public FixRateConf(){
+        
+    }
 
     /**
      * confStr format: 'beginTimeOffset endTimeOffset interval actionType [actionDays]'
@@ -70,7 +93,7 @@ public class FixRateConf {
         this.beginTimeOffset = Integer.parseInt(segs[0]);
         this.endTimeOffset = Integer.parseInt(segs[1]);
         this.interval = Integer.parseInt(segs[2]);
-        this.actionType = Integer.parseInt(segs[3]); // determine DayHelper
+        this.actionType = Integer.parseInt(segs[3]); // determine using which DayHelper
         String actionDays = segs.length >= 5 ? segs[4] : "";
         this.dayHelper = DayHelper.getInstanceByCode(actionType, actionDays);
     }
@@ -159,8 +182,8 @@ public class FixRateConf {
             } else {
                 // ensure that the next tirgger time satisfying the interval rules, i.e., rounding
                 long gapMilliseconds = interval * 1000 - (fromTime.getTime() - beginTimeToday.getTime()) % (interval * 1000);
-                Date nextTimeMatchFixRate = new Date(fromTime.getTime() + gapMilliseconds);
-                nextValidTime = nextTimeMatchFixRate.after(endTimeToday) ? new Date(dayHelper.nextValidDayZero(fromTime).getTime() + beginTimeOffset * 1000L) : nextTimeMatchFixRate;
+                Date nextTimeNoGapFixRate = new Date(fromTime.getTime() + gapMilliseconds);
+                nextValidTime = nextTimeNoGapFixRate.after(endTimeToday) ? new Date(dayHelper.nextValidDayZero(fromTime).getTime() + beginTimeOffset * 1000L) : nextTimeNoGapFixRate;
             }
         }
         return nextValidTime;

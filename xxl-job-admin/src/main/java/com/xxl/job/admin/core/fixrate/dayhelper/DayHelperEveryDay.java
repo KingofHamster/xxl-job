@@ -11,7 +11,6 @@ public class DayHelperEveryDay implements DayHelper{
     @Override
     public Date nextValidDayZero(Date fromDate) {
         Date fromDateZero = getDayZero(fromDate);
-        System.out.println(fromDateZero);
         return new Date(fromDateZero.getTime() + 24 * 60 * 60 * 1000L);
     }
 }
